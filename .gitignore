@@ -1,0 +1,12 @@
+# Python and Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Data / large files
+data/
+*.csv
+data/images/
+
+# macOS
+.DS_Store
