@@ -1669,9 +1669,7 @@
           </span>
 
 
-          <span class="category">
-            Near Eastern
-          </span>
+        
 
 
         </div>
@@ -1811,7 +1809,7 @@
     */
 
     const API_URL =
-      "http://127.0.0.1:8000/predict";
+      "/predict";
 
 
 
@@ -2046,43 +2044,26 @@
 
       }
 
+        catch (error) {
 
-      catch (error) {
+            console.error("Prediction error:", error);
 
+            results.style.display = "block";
 
-        /*
-          TEMPORARY FRONTEND DEMO RESULTS
+            cultureName.textContent =
+                "Unable to analyze";
 
-          These are NOT predictions from
-          your trained model.
+            confidence.textContent =
+                "";
 
-          Remove this demo fallback when
-          we connect the real backend.
-        */
+            predictionBars.innerHTML =
+                "";
 
+            warning.textContent =
+                "The model could not process this image. Please try again.";
 
-        showResults({
-
-          "Greek": 0.74,
-
-          "Roman": 0.12,
-
-          "Egyptian": 0.07,
-
-          "East Asian": 0.04,
-
-          "Near Eastern": 0.03
-
-        });
-
-
-        warning.textContent =
-          "Frontend demo mode — "
-          + "the trained model is not "
-          + "connected yet.";
-
-      }
-
+        }
+  
 
       finally {
 
