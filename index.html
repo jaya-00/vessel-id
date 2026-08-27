@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ancient Vessel Culture Identifier</title>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --blue: #78A2D2;
+      --yellow: #FEFFAF;
+      --cream: #F8F5EE;
+      --white: #FFFFFF;
+      --ink: #17202A;
+      --muted: #69727C;
+
+      --shadow:
+        0 24px 60px
+        rgba(47, 72, 100, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Montserrat", sans-serif;
+      overflow-x: hidden;
+    }
+
+    button {
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* ========================================
+       HERO
+    ======================================== */
+
+    .hero {
+      min-height: 100vh;
+
+      background: var(--blue);
+      color: white;
+
+      position: relative;
+      overflow: hidden;
+
+      padding: 7vh 7vw;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      position: relative;
+      z-index: 20;
+
+      width: fit-content;
+
+      font-size: 13px;
+      line-height: 1.04;
+
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+
+      width: 53%;
+      margin-top: 18vh;
+    }
+
+    .small-label {
+      font-size: 11px;
+      font-weight: 600;
+
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+
+      margin-bottom: 16px;
+
+      opacity: 0.76;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+
+      font-weight: 600;
+
+      font-size:
+        clamp(
+          55px,
+          7vw,
+          105px
+        );
+
+      letter-spacing: 0.01em;
+      line-height: 0.92;
+
+      margin-bottom: 32px;
+    }
+
+    .hero h1 em {
+      font-weight: 500;
+      opacity: 0.92;
+    }
+
+    .bio-box {
+      width:
+        min(
+          650px,
+          100%
+        );
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.96
+        );
+
+      color: #567FAE;
+
+      padding: 30px 34px;
+
+      line-height: 1.55;
+
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-style: italic;
+
+      font-size:
+        clamp(
+          18px,
+          1.6vw,
+          23px
+        );
+
+      font-weight: 500;
+
+      letter-spacing: -0.01em;
+
+      border-radius: 5px;
+
+      box-shadow:
+        0 24px 60px
+        rgba(47, 72, 100, 0.13);
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+
+      gap: 22px;
+
+      margin-top: 23px;
+    }
+
+    .main-button {
+      background: var(--yellow);
+      color: #466C98;
+
+      border: none;
+      border-radius: 100px;
+
+      padding: 14px 24px;
+
+      font-weight: 700;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .main-button:hover {
+      transform:
+        translateY(-3px)
+        rotate(-1deg);
+
+      box-shadow:
+        0 12px 25px
+        rgba(0,0,0,0.12);
+    }
+
+    .about-link {
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 13px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.5);
+
+      padding-bottom: 3px;
+
+      transition:
+        opacity 0.2s ease;
+    }
+
+    .about-link:hover {
+      opacity: 0.7;
+    }
+
+
+    /* ========================================
+       COLLAGE
+    ======================================== */
+
+    .collage {
+      position: absolute;
+
+      right: 0;
+      top: 0;
+
+      width: 55%;
+      height: 100%;
+
+      z-index: 3;
+
+      pointer-events: auto;
+    }
+
+    .pot {
+      position: absolute;
+
+      object-fit: contain;
+
+      filter:
+        drop-shadow(
+          0 20px 18px
+          rgba(48, 68, 91, 0.15)
+        );
+
+      animation:
+        float 8s
+        ease-in-out
+        infinite;
+
+      cursor: grab;
+
+      user-select: none;
+      -webkit-user-drag: none;
+
+      pointer-events: auto;
+
+      transition:
+        filter 0.25s ease;
+    }
+
+    .pot:hover {
+      filter:
+        drop-shadow(
+          0 27px 24px
+          rgba(48, 68, 91, 0.27)
+        );
+    }
+
+    .pot.dragging {
+      cursor: grabbing;
+
+      animation: none;
+
+      z-index: 100 !important;
+    }
+
+
+    /* 1 — yellow fish bowl */
+
+    .pot1 {
+      width: 27%;
+      left: 3%;
+      top: 20%;
+
+      z-index: 5;
+
+      animation-delay: -1s;
+    }
+
+
+    /* 2 — blue flowers */
+
+    .pot2 {
+      width: 24%;
+      left: 27%;
+      top: 47%;
+
+      z-index: 10;
+
+      animation-delay: -3s;
+    }
+
+
+    /* 3 — green bottle */
+
+    .pot3 {
+      width: 22%;
+      left: 50%;
+      top: 62%;
+
+      z-index: 7;
+
+      animation-delay: -5s;
+    }
+
+
+    /* 4 — multiple faces */
+
+    .pot4 {
+      width: 22%;
+      right: 10%;
+      top: 1%;
+
+      z-index: 3;
+
+      animation-delay: -2s;
+    }
+
+
+    /* 5 — Archaic East Greek amphora */
+
+    .pot5 {
+      width: 31%;
+      left: 35%;
+      top: 27%;
+
+      z-index: 4;
+
+      animation-delay: -4s;
+    }
+
+
+    /* 6 — animal vessel */
+
+    .pot6 {
+      width: 18%;
+      right: 1%;
+      top: 44%;
+
+      z-index: 6;
+
+      animation-delay: -6s;
+    }
+
+
+    /* 7 — red Etruscan amphora */
+
+    .pot7 {
+      width: 23%;
+      left: 5%;
+      top: 42%;
+
+      z-index: 8;
+
+      animation-delay: -2.5s;
+    }
+
+
+    /* 8 — carved Indian vessel */
+
+    .pot8 {
+      width: 25%;
+      left: 4%;
+      bottom: 2%;
+
+      z-index: 2;
+
+      animation-delay: -4.5s;
+    }
+
+
+    /* 9 — Moroccan / Amazigh */
+
+    .pot9 {
+        width: 29%;
+
+        right: 24%;
+        top: 12%;
+
+        z-index: 9;
+
+        animation-delay: -3.7s;
+    }
+
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform:
+          translateY(0)
+          rotate(-0.25deg);
+      }
+
+      50% {
+        transform:
+          translateY(-9px)
+          rotate(0.25deg);
+      }
+
+    }
+
+
+    /* ========================================
+       VESSEL HOVER TOOLTIP
+    ======================================== */
+
+    .vessel-tooltip {
+      position: fixed;
+
+      z-index: 9999;
+
+      pointer-events: none;
+
+      max-width: 310px;
+
+      background: var(--yellow);
+      color: #416B9A;
+
+      padding: 12px 16px;
+
+      border-radius: 18px;
+
+      font-family:
+        "Montserrat",
+        sans-serif;
+
+      font-size: 11px;
+      font-weight: 600;
+
+      line-height: 1.45;
+
+      letter-spacing: 0.01em;
+
+      box-shadow:
+        0 10px 30px
+        rgba(40, 62, 85, 0.18);
+
+      opacity: 0;
+
+      transform: translateY(6px);
+
+      transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
+    }
+
+    .vessel-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-note {
+      position: absolute;
+
+      left: 7vw;
+      bottom: 28px;
+
+      font-size: 10px;
+
+      letter-spacing: 0.16em;
+
+      opacity: 0.62;
+
+      z-index: 10;
+    }
+
+
+    /* ========================================
+       SOFT PAGE TRANSITION
+    ======================================== */
+
+    .transition-wave {
+      height: 120px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--blue),
+          var(--cream)
+        );
+    }
+
+
+    /* ========================================
+       IDENTIFIER
+    ======================================== */
+
+    .identifier {
+      padding:
+        95px
+        7vw
+        120px;
+
+      background: var(--cream);
+    }
+
+    .section-title {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size:
+        clamp(
+          48px,
+          6vw,
+          82px
+        );
+
+      font-weight: 600;
+
+      letter-spacing: -0.025em;
+
+      line-height: 1;
+
+      margin-bottom: 18px;
+    }
+
+    .section-title em {
+      font-weight: 500;
+    }
+
+    .section-description {
+      max-width: 620px;
+
+      color: var(--muted);
+
+      line-height: 1.7;
+
+      font-size: 14px;
+
+      margin-bottom: 45px;
+    }
+
+    .identifier-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.08fr
+        0.92fr;
+
+      gap: 22px;
+
+      align-items: stretch;
+    }
+
+
+    /* ========================================
+       UPLOAD BOX
+    ======================================== */
+
+    .upload-box {
+      min-height: 500px;
+
+      background: white;
+
+      border:
+        1px solid
+        rgba(58, 74, 92, 0.12);
+
+      border-radius: 24px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      box-shadow: var(--shadow);
+
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .upload-box:hover {
+      transform: translateY(-5px);
+
+      border-color: var(--blue);
+
+      box-shadow:
+        0 28px 65px
+        rgba(47,72,100,0.16);
+    }
+
+    .upload-message {
+      text-align: center;
+      padding: 35px;
+    }
+
+    .upload-circle {
+      width: 64px;
+      height: 64px;
+
+      margin:
+        0 auto
+        20px;
+
+      border-radius: 50%;
+
+      background: var(--yellow);
+      color: #527BA9;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 30px;
+
+      transition:
+        transform 0.25s ease;
+    }
+
+    .upload-box:hover .upload-circle {
+      transform:
+        rotate(8deg)
+        scale(1.06);
+    }
+
+    .upload-message h3 {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size: 27px;
+      font-weight: 600;
+
+      margin-bottom: 8px;
+    }
+
+    .upload-message p {
+      color: #8A929B;
+      font-size: 13px;
+    }
+
+    #preview {
+      display: none;
+
+      position: absolute;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      padding: 40px;
+    }
+
+
+    /* ========================================
+       RESULTS
+    ======================================== */
+
+    .result-box {
+      min-height: 500px;
+
+      background: var(--blue);
+      color: white;
+
+      padding: 36px;
+
+      border-radius: 24px;
+
+      display: flex;
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      box-shadow: var(--shadow);
+    }
+
+    .waiting {
+      font-size: 14px;
+      opacity: 0.75;
+    }
+
+    .loading {
+      display: none;
+      line-height: 1.6;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+
+      border-radius: 50%;
+
+      border:
+        4px solid
+        rgba(255,255,255,0.25);
+
+      border-top-color: var(--yellow);
+
+      margin-bottom: 22px;
+
+      animation:
+        spin 0.85s
+        linear
+        infinite;
+    }
+
+    @keyframes spin {
+
+      to {
+        transform: rotate(360deg);
+      }
+
+    }
+
+    .results {
+      display: none;
+    }
+
+    .result-label {
+      text-transform: uppercase;
+
+      letter-spacing: 0.16em;
+
+      font-size: 10px;
+
+      opacity: 0.67;
+
+      margin-bottom: 12px;
+    }
+
+    #cultureName {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size:
+        clamp(
+          50px,
+          6vw,
+          82px
+        );
+
+      line-height: 0.95;
+
+      font-weight: 600;
+
+      margin-bottom: 12px;
+    }
+
+    #confidence {
+      font-size: 14px;
+
+      margin-bottom: 34px;
+
+      color: var(--yellow);
+
+      font-weight: 600;
+    }
+
+    .prediction {
+      margin-bottom: 17px;
+    }
+
+    .prediction-label {
+      display: flex;
+      justify-content: space-between;
+
+      font-size: 12px;
+
+      margin-bottom: 7px;
+    }
+
+    .bar-background {
+      height: 7px;
+
+      background:
+        rgba(255,255,255,0.22);
+
+      border-radius: 20px;
+
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+
+      background: var(--yellow);
+
+      border-radius: 20px;
+
+      transition:
+        width 0.9s
+        cubic-bezier(.2,.8,.2,1);
+    }
+
+    .warning {
+      margin-top: 28px;
+
+      font-size: 11px;
+
+      line-height: 1.55;
+
+      opacity: 0.7;
+    }
+
+    #analyzeButton {
+      width: 100%;
+
+      margin-top: 28px;
+
+      border: none;
+      border-radius: 100px;
+
+      background: var(--yellow);
+      color: #4F76A3;
+
+      padding: 15px;
+
+      font-weight: 700;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    #analyzeButton:hover:not(:disabled) {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 9px 22px
+        rgba(0,0,0,0.10);
+    }
+
+    #analyzeButton:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+
+    /* ========================================
+       ABOUT
+    ======================================== */
+
+    .about {
+      padding:
+        110px
+        7vw;
+
+      background: var(--yellow);
+    }
+
+    .about-content {
+      display: grid;
+
+      grid-template-columns:
+        0.7fr
+        1fr;
+
+      gap: 70px;
+
+      align-items: start;
+    }
+
+    .about-title {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size:
+        clamp(
+          55px,
+          7vw,
+          100px
+        );
+
+      line-height: 0.95;
+
+      font-weight: 600;
+    }
+
+    .about-title em {
+      color: #5F87B4;
+    }
+
+    .about-text {
+      max-width: 680px;
+
+      display: grid;
+
+      gap: 24px;
+
+      line-height: 1.8;
+
+      font-size: 14px;
+
+      color: #4F5963;
+    }
+
+
+    /* ========================================
+       MODEL INFO / CATEGORIES
+    ======================================== */
+
+    .model-info {
+      background: var(--blue);
+
+      color: white;
+
+      padding:
+        90px
+        7vw;
+    }
+
+    .model-info-grid {
+      display: grid;
+
+      grid-template-columns:
+        0.8fr
+        1.2fr;
+
+      gap: 70px;
+
+      align-items: start;
+    }
+
+    .model-info h2 {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size:
+        clamp(
+          45px,
+          6vw,
+          82px
+        );
+
+      line-height: 0.95;
+
+      font-weight: 600;
+    }
+
+    .model-info h2 em {
+      color: var(--yellow);
+    }
+
+    .model-details {
+      max-width: 720px;
+    }
+
+    .trained-on {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-style: italic;
+
+      font-size:
+        clamp(
+          18px,
+          2vw,
+          24px
+        );
+
+      line-height: 1.5;
+
+      margin-bottom: 35px;
+    }
+
+    .trained-on strong {
+      color: var(--yellow);
+    }
+
+    .categories-label {
+      text-transform: uppercase;
+
+      font-size: 10px;
+
+      letter-spacing: 0.17em;
+
+      opacity: 0.65;
+
+      margin-bottom: 14px;
+    }
+
+    .categories {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+    }
+
+    .category {
+      border:
+        1px solid
+        rgba(255,255,255,0.38);
+
+      border-radius: 100px;
+
+      padding:
+        11px
+        17px;
+
+      font-size: 12px;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .category:hover {
+      background: var(--yellow);
+      color: #4F76A3;
+
+      transform: translateY(-2px);
+    }
+
+    .met-note {
+      margin-top: 28px;
+
+      max-width: 650px;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+
+      opacity: 0.66;
+    }
+
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+
+    footer {
+      padding:
+        24px
+        7vw;
+
+      background: var(--cream);
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      font-size: 10px;
+
+      letter-spacing: 0.12em;
+    }
+
+
+    /* ========================================
+       MOBILE
+    ======================================== */
+
+    @media (max-width: 900px) {
+
+      .hero {
+        min-height: 1000px;
+      }
+
+      .hero-content {
+        width: 100%;
+        margin-top: 100px;
+      }
+
+      .collage {
+        width: 100%;
+        top: 500px;
+        height: 500px;
+      }
+
+      .pot1 {
+        width: 30%;
+        left: 2%;
+        top: 5%;
+      }
+
+      .pot5 {
+        width: 34%;
+        left: 34%;
+        top: 15%;
+      }
+
+      .pot4 {
+        width: 23%;
+        right: 4%;
+        top: 0%;
+      }
+
+      .pot7 {
+        width: 25%;
+        left: 8%;
+        top: 37%;
+      }
+
+      .pot2 {
+        width: 26%;
+        left: 34%;
+        top: 42%;
+      }
+
+      .pot3 {
+        width: 23%;
+        left: 58%;
+        top: 49%;
+      }
+
+      .pot6 {
+        width: 19%;
+        right: 0%;
+        top: 33%;
+      }
+
+      .pot8 {
+        width: 26%;
+        left: 3%;
+        bottom: 0%;
+      }
+
+      .pot9 {
+        width: 30%;
+        right: 8%;
+        bottom: 2%;
+    }
+
+      .identifier-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-content {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .model-info-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- ========================================
+       HERO
+  ======================================== -->
+
+  <section class="hero">
+
+
+    <div class="logo">
+      ANCIENT<br>
+      VESSEL<br>
+      CULTURE<br>
+      IDENTIFIER
+    </div>
+
+
+    <div class="hero-content">
+
+
+      <p class="small-label">
+        Experimental image classifier
+      </p>
+
+
+      <h1>
+        Vessel <em>Origins</em>
+      </h1>
+
+
+      <div class="bio-box">
+
+        Upload a photograph of an ancient vessel
+        and explore its most likely cultural origin
+        through a computer vision model trained on
+        museum collection images.
+
+      </div>
+
+
+      <div class="hero-buttons">
+
+
+        <button
+          class="main-button"
+          onclick="goToIdentifier()"
+        >
+          Identify a vessel
+        </button>
+
+
+        <a
+          class="about-link"
+          href="#about"
+        >
+          About the project
+        </a>
+
+
+      </div>
+
+
+    </div>
+
+
+    <!-- ========================================
+         COLLAGE — ALL 9 VESSELS
+    ======================================== -->
+
+    <div class="collage">
+
+
+      <!-- 1 — Mehrgarh -->
+
+      <img
+        class="pot pot1"
+        src="assets/vessel-1.png"
+        alt="Painted vessel from Mehrgarh"
+        data-origin="Mehrgarh · present-day Pakistan"
+      >
+
+
+      <!-- 2 — Egyptian -->
+
+      <img
+        class="pot pot2"
+        src="assets/vessel-2.png"
+        alt="Ancient Egyptian painted vessel"
+        data-origin="Ancient Egypt · New Kingdom · late 18th Dynasty / Amarna Period"
+      >
+
+
+      <!-- 3 — Salem -->
+
+      <img
+        class="pot pot3"
+        src="assets/vessel-3.png"
+        alt="Green lead-glazed bottle"
+        data-origin="Salem, North Carolina · lead-glazed earthenware bottle / pilgrim flask"
+      >
+
+
+      <!-- 4 — Central Asia / Khotan -->
+
+      <img
+        class="pot pot4"
+        src="assets/vessel-4.png"
+        alt="Metal vessel with multiple faces"
+        data-origin="Central Asia · stylistic links to the Kingdom of Khotan · present-day Xinjiang, China"
+      >
+
+
+      <!-- 5 — Archaic East Greek -->
+
+      <img
+        class="pot pot5"
+        src="assets/vessel-5.png"
+        alt="Archaic East Greek amphora"
+        data-origin="Archaic East Greek · amphora"
+      >
+
+
+      <!-- 6 — Miletus -->
+
+      <img
+        class="pot pot6"
+        src="assets/vessel-6.png"
+        alt="Ancient Greek oenochoe"
+        data-origin="Miletus · ancient Greek world"
+      >
+
+
+      <!-- 7 — Etruscan -->
+
+      <img
+        class="pot pot7"
+        src="assets/vessel-7.png"
+        alt="Etruscan amphora"
+        data-origin="Etruscan · ancient Italy · Orientalizing period · circa 650 BCE"
+      >
+
+
+      <!-- 8 — Chandraketugarh -->
+
+      <img
+        class="pot pot8"
+        src="assets/vessel-8.png"
+        alt="Chandraketugarh terracotta vessel"
+        data-origin="Chandraketugarh · West Bengal, India · Shunga period · approximately 2nd century BCE–1st century CE"
+      >
+
+
+      <!-- 9 — Moroccan / Amazigh -->
+
+      <img
+        class="pot pot9"
+        src="assets/vessel-9.png"
+        alt="Painted geometric vessel"
+        data-origin="Morocco · Berber / Amazigh ceramic tradition"
+      >
+
+
+    </div>
+
+
+    <div class="scroll-note">
+      DRAG THE VESSELS · HOVER TO EXPLORE ↓
+    </div>
+
+
+  </section>
+
+
+
+  <div class="transition-wave">
+  </div>
+
+
+
+  <!-- ========================================
+       IDENTIFIER
+       01 REMOVED
+  ======================================== -->
+
+  <section
+    class="identifier reveal"
+    id="identifier"
+  >
+
+
+    <h2 class="section-title">
+      Find its <em>origin.</em>
+    </h2>
+
+
+    <p class="section-description">
+
+      Upload a clear image of an ancient vessel.
+      The model estimates the most likely cultural
+      category among those represented in its
+      training data.
+
+    </p>
+
+
+    <div class="identifier-grid">
+
+
+      <!-- UPLOAD -->
+
+      <label
+        class="upload-box"
+        id="uploadBox"
+      >
+
+
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          hidden
+        >
+
+
+        <div
+          class="upload-message"
+          id="uploadMessage"
+        >
+
+
+          <div class="upload-circle">
+            +
+          </div>
+
+
+          <h3>
+            Show me a vessel
+          </h3>
+
+
+          <p>
+            Drop an image here or click to browse
+          </p>
+
+
+        </div>
+
+
+        <img
+          id="preview"
+          alt="Uploaded vessel"
+        >
+
+
+      </label>
+
+
+
+      <!-- RESULT -->
+
+      <div class="result-box">
+
+
+        <div
+          class="waiting"
+          id="waiting"
+        >
+          Your result will appear here.
+        </div>
+
+
+
+        <div
+          class="loading"
+          id="loading"
+        >
+
+
+          <div class="spinner">
+          </div>
+
+
+          Looking at shape,
+          surface and decoration…
+
+        </div>
+
+
+
+        <div
+          class="results"
+          id="results"
+        >
+
+
+          <p class="result-label">
+            Most likely culture
+          </p>
+
+
+          <h3 id="cultureName">
+            Greek
+          </h3>
+
+
+          <p id="confidence">
+            96% confidence
+          </p>
+
+
+          <div id="predictionBars">
+          </div>
+
+
+          <p
+            class="warning"
+            id="warning"
+          >
+            Experimental prototype —
+            not intended for formal attribution.
+          </p>
+
+
+        </div>
+
+
+
+        <button
+          id="analyzeButton"
+          disabled
+        >
+          Analyze image
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ========================================
+       ABOUT
+  ======================================== -->
+
+  <section
+    class="about reveal"
+    id="about"
+  >
+
+
+    <div class="about-content">
+
+
+      <h2 class="about-title">
+        About the <em>project.</em>
+      </h2>
+
+
+      <div class="about-text">
+
+
+        <p>
+
+          This project explores how computer
+          vision can be used to suggest the
+          cultural classification of an ancient
+          vessel from a photograph.
+
+        </p>
+
+
+        <p>
+
+          The current model learns visual patterns
+          from vessel images sourced from
+          The Metropolitan Museum of Art’s open
+          collection data.
+
+        </p>
+
+
+        <p>
+
+          The goal is not to replace curatorial
+          expertise or formal attribution.
+          Instead, this experimental MVP explores
+          how image classification might support
+          discovery, education, and engagement
+          with cultural collections.
+
+        </p>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ========================================
+       MODEL INFO
+  ======================================== -->
+
+  <section class="model-info reveal">
+
+
+    <div class="model-info-grid">
+
+
+      <h2>
+        What can it <em>recognize?</em>
+      </h2>
+
+
+      <div class="model-details">
+
+
+        <p class="trained-on">
+
+          The current model is trained on vessel
+          images sourced from
+
+          <strong>
+            The Metropolitan Museum of Art’s
+            open collection data.
+          </strong>
+
+        </p>
+
+
+        <p class="categories-label">
+          Current MVP categories
+        </p>
+
+
+        <div class="categories">
+
+
+          <span class="category">
+            Greek
+          </span>
+
+
+          <span class="category">
+            Roman
+          </span>
+
+
+          <span class="category">
+            Egyptian
+          </span>
+
+
+          <span class="category">
+            East Asian
+          </span>
+
+
+          <span class="category">
+            Near Eastern
+          </span>
+
+
+        </div>
+
+
+        <p class="met-note">
+
+          This classifier is an independent,
+          experimental prototype and is not an
+          official tool of The Metropolitan Museum
+          of Art. Predictions are intended for
+          exploration and should not be treated
+          as formal object attributions.
+
+        </p>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ========================================
+       FOOTER
+  ======================================== -->
+
+  <footer>
+
+
+    <span>
+      ANCIENT VESSEL CULTURE IDENTIFIER
+    </span>
+
+
+    <span>
+      Built by Jael Ultimo · Experimental MVP
+    </span>
+
+
+  </footer>
+
+
+
+  <script>
+
+
+    /* ========================================
+       ELEMENTS
+    ======================================== */
+
+
+    const imageInput =
+      document.getElementById(
+        "imageInput"
+      );
+
+
+    const uploadBox =
+      document.getElementById(
+        "uploadBox"
+      );
+
+
+    const uploadMessage =
+      document.getElementById(
+        "uploadMessage"
+      );
+
+
+    const preview =
+      document.getElementById(
+        "preview"
+      );
+
+
+    const analyzeButton =
+      document.getElementById(
+        "analyzeButton"
+      );
+
+
+    const waiting =
+      document.getElementById(
+        "waiting"
+      );
+
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    const results =
+      document.getElementById(
+        "results"
+      );
+
+
+    const cultureName =
+      document.getElementById(
+        "cultureName"
+      );
+
+
+    const confidence =
+      document.getElementById(
+        "confidence"
+      );
+
+
+    const predictionBars =
+      document.getElementById(
+        "predictionBars"
+      );
+
+
+    const warning =
+      document.getElementById(
+        "warning"
+      );
+
+
+    let selectedFile = null;
+
+
+    /*
+      TEMPORARY LOCAL BACKEND URL
+
+      When we connect your Colab model
+      to the website, we may change this.
+    */
+
+    const API_URL =
+      "http://127.0.0.1:8000/predict";
+
+
+
+    /* ========================================
+       HERO BUTTON
+    ======================================== */
+
+
+    function goToIdentifier() {
+
+      document
+        .getElementById(
+          "identifier"
+        )
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+
+    /* ========================================
+       IMAGE UPLOAD
+    ======================================== */
+
+
+    imageInput.addEventListener(
+      "change",
+      function () {
+
+        if (
+          imageInput.files.length > 0
+        ) {
+
+          selectImage(
+            imageInput.files[0]
+          );
+
+        }
+
+      }
+    );
+
+
+
+    uploadBox.addEventListener(
+      "dragover",
+      function (event) {
+
+        event.preventDefault();
+
+        uploadBox.style.transform =
+          "translateY(-5px)";
+
+      }
+    );
+
+
+    uploadBox.addEventListener(
+      "dragleave",
+      function () {
+
+        uploadBox.style.transform =
+          "";
+
+      }
+    );
+
+
+    uploadBox.addEventListener(
+      "drop",
+      function (event) {
+
+        event.preventDefault();
+
+        uploadBox.style.transform =
+          "";
+
+
+        const file =
+          event
+            .dataTransfer
+            .files[0];
+
+
+        if (file) {
+
+          selectImage(file);
+
+        }
+
+      }
+    );
+
+
+
+    function selectImage(file) {
+
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        alert(
+          "Please upload an image."
+        );
+
+        return;
+
+      }
+
+
+      selectedFile = file;
+
+
+      const imageURL =
+        URL.createObjectURL(
+          file
+        );
+
+
+      preview.src =
+        imageURL;
+
+
+      preview.style.display =
+        "block";
+
+
+      uploadMessage.style.display =
+        "none";
+
+
+      analyzeButton.disabled =
+        false;
+
+
+      waiting.style.display =
+        "block";
+
+
+      loading.style.display =
+        "none";
+
+
+      results.style.display =
+        "none";
+
+    }
+
+
+
+    /* ========================================
+       ANALYZE IMAGE
+    ======================================== */
+
+
+    analyzeButton.addEventListener(
+      "click",
+      analyzeImage
+    );
+
+
+
+    async function analyzeImage() {
+
+
+      if (!selectedFile) {
+        return;
+      }
+
+
+      waiting.style.display =
+        "none";
+
+
+      results.style.display =
+        "none";
+
+
+      loading.style.display =
+        "block";
+
+
+      analyzeButton.disabled =
+        true;
+
+
+
+      try {
+
+
+        const formData =
+          new FormData();
+
+
+        formData.append(
+          "file",
+          selectedFile
+        );
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+              method: "POST",
+              body: formData
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Backend not connected"
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        showResults(
+          data.predictions
+        );
+
+      }
+
+
+      catch (error) {
+
+
+        /*
+          TEMPORARY FRONTEND DEMO RESULTS
+
+          These are NOT predictions from
+          your trained model.
+
+          Remove this demo fallback when
+          we connect the real backend.
+        */
+
+
+        showResults({
+
+          "Greek": 0.74,
+
+          "Roman": 0.12,
+
+          "Egyptian": 0.07,
+
+          "East Asian": 0.04,
+
+          "Near Eastern": 0.03
+
+        });
+
+
+        warning.textContent =
+          "Frontend demo mode — "
+          + "the trained model is not "
+          + "connected yet.";
+
+      }
+
+
+      finally {
+
+
+        loading.style.display =
+          "none";
+
+
+        results.style.display =
+          "block";
+
+
+        analyzeButton.disabled =
+          false;
+
+      }
+
+    }
+
+
+
+    /* ========================================
+       SHOW MODEL RESULTS
+    ======================================== */
+
+
+    function showResults(
+      predictions
+    ) {
+
+
+      const sorted =
+        Object
+          .entries(
+            predictions
+          )
+          .sort(
+            (a, b) =>
+              b[1] - a[1]
+          );
+
+
+      const winner =
+        sorted[0][0];
+
+
+      const winnerScore =
+        sorted[0][1];
+
+
+      cultureName.textContent =
+        winner;
+
+
+      confidence.textContent =
+        Math.round(
+          winnerScore * 100
+        )
+        + "% confidence";
+
+
+      predictionBars.innerHTML =
+        "";
+
+
+      sorted.forEach(
+        function (
+          prediction
+        ) {
+
+
+          const culture =
+            prediction[0];
+
+
+          const score =
+            prediction[1];
+
+
+          const percent =
+            Math.round(
+              score * 100
+            );
+
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+
+          row.className =
+            "prediction";
+
+
+          row.innerHTML = `
+
+            <div
+              class="prediction-label"
+            >
+
+              <span>
+                ${culture}
+              </span>
+
+              <span>
+                ${percent}%
+              </span>
+
+            </div>
+
+
+            <div
+              class="bar-background"
+            >
+
+              <div
+                class="bar"
+                style="
+                  width:
+                  ${percent}%;
+                "
+              >
+              </div>
+
+            </div>
+
+          `;
+
+
+          predictionBars.appendChild(
+            row
+          );
+
+        }
+      );
+
+
+      if (
+        winnerScore < 0.45
+      ) {
+
+        warning.textContent =
+          "Low-confidence result. "
+          + "This vessel may fall "
+          + "outside the cultural categories "
+          + "currently represented in "
+          + "the model.";
+
+      }
+
+      else {
+
+        warning.textContent =
+          "Experimental prototype — "
+          + "not intended for formal attribution.";
+
+      }
+
+    }
+
+
+
+    /* ========================================
+       SCROLL REVEAL
+    ======================================== */
+
+
+    const revealElements =
+      document.querySelectorAll(
+        ".reveal"
+      );
+
+
+    const observer =
+      new IntersectionObserver(
+
+        function (entries) {
+
+          entries.forEach(
+            function (entry) {
+
+              if (
+                entry.isIntersecting
+              ) {
+
+                entry
+                  .target
+                  .classList
+                  .add(
+                    "visible"
+                  );
+
+              }
+
+            }
+          );
+
+        },
+
+        {
+          threshold: 0.12
+        }
+
+      );
+
+
+    revealElements.forEach(
+      function (element) {
+
+        observer.observe(
+          element
+        );
+
+      }
+    );
+
+
+
+    /* ========================================
+       COLLAGE HOVER + DRAG
+    ======================================== */
+
+
+    const pots =
+      document.querySelectorAll(
+        ".pot"
+      );
+
+
+    const collage =
+      document.querySelector(
+        ".collage"
+      );
+
+
+    const vesselTooltip =
+      document.createElement(
+        "div"
+      );
+
+
+    vesselTooltip.className =
+      "vessel-tooltip";
+
+
+    document.body.appendChild(
+      vesselTooltip
+    );
+
+
+
+    pots.forEach(
+      function (pot) {
+
+
+        /* -------------------------------
+           HOVER LABEL
+        ------------------------------- */
+
+
+        pot.addEventListener(
+          "mouseenter",
+          function () {
+
+
+            const origin =
+              pot.dataset.origin;
+
+
+            if (!origin) {
+              return;
+            }
+
+
+            vesselTooltip.textContent =
+              origin;
+
+
+            vesselTooltip
+              .classList
+              .add(
+                "visible"
+              );
+
+          }
+        );
+
+
+        pot.addEventListener(
+          "mousemove",
+          function (event) {
+
+
+            if (
+              !pot.dataset.origin
+            ) {
+              return;
+            }
+
+
+            vesselTooltip.style.left =
+              event.clientX
+              + 16
+              + "px";
+
+
+            vesselTooltip.style.top =
+              event.clientY
+              + 16
+              + "px";
+
+          }
+        );
+
+
+        pot.addEventListener(
+          "mouseleave",
+          function () {
+
+
+            vesselTooltip
+              .classList
+              .remove(
+                "visible"
+              );
+
+          }
+        );
+
+
+
+        /* -------------------------------
+           DRAGGING
+        ------------------------------- */
+
+
+        let dragging = false;
+
+        let offsetX = 0;
+
+        let offsetY = 0;
+
+
+
+        pot.addEventListener(
+          "pointerdown",
+          function (event) {
+
+
+            if (
+              event.pointerType !== "mouse"
+              &&
+              event.pointerType !== "pen"
+            ) {
+
+              return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            dragging = true;
+
+
+            pot.classList.add(
+              "dragging"
+            );
+
+
+            vesselTooltip
+              .classList
+              .remove(
+                "visible"
+              );
+
+
+            const potRect =
+              pot.getBoundingClientRect();
+
+
+            const collageRect =
+              collage.getBoundingClientRect();
+
+
+            const currentLeft =
+              potRect.left
+              - collageRect.left;
+
+
+            const currentTop =
+              potRect.top
+              - collageRect.top;
+
+
+            pot.style.left =
+              currentLeft
+              + "px";
+
+
+            pot.style.top =
+              currentTop
+              + "px";
+
+
+            pot.style.right =
+              "auto";
+
+
+            pot.style.bottom =
+              "auto";
+
+
+            offsetX =
+              event.clientX
+              - potRect.left;
+
+
+            offsetY =
+              event.clientY
+              - potRect.top;
+
+
+            pot.setPointerCapture(
+              event.pointerId
+            );
+
+          }
+        );
+
+
+
+        pot.addEventListener(
+          "pointermove",
+          function (event) {
+
+
+            if (!dragging) {
+              return;
+            }
+
+
+            const collageRect =
+              collage.getBoundingClientRect();
+
+
+            let newLeft =
+              event.clientX
+              - collageRect.left
+              - offsetX;
+
+
+            let newTop =
+              event.clientY
+              - collageRect.top
+              - offsetY;
+
+
+            const maxLeft =
+              collage.clientWidth
+              - pot.offsetWidth;
+
+
+            const maxTop =
+              collage.clientHeight
+              - pot.offsetHeight;
+
+
+            newLeft =
+              Math.max(
+                0,
+                Math.min(
+                  newLeft,
+                  maxLeft
+                )
+              );
+
+
+            newTop =
+              Math.max(
+                0,
+                Math.min(
+                  newTop,
+                  maxTop
+                )
+              );
+
+
+            pot.style.left =
+              newLeft
+              + "px";
+
+
+            pot.style.top =
+              newTop
+              + "px";
+
+          }
+        );
+
+
+
+        function stopDragging(
+          event
+        ) {
+
+
+          if (!dragging) {
+            return;
+          }
+
+
+          dragging = false;
+
+
+          pot.classList.remove(
+            "dragging"
+          );
+
+
+          if (
+            pot.hasPointerCapture(
+              event.pointerId
+            )
+          ) {
+
+            pot.releasePointerCapture(
+              event.pointerId
+            );
+
+          }
+
+        }
+
+
+
+        pot.addEventListener(
+          "pointerup",
+          stopDragging
+        );
+
+
+        pot.addEventListener(
+          "pointercancel",
+          stopDragging
+        );
+
+
+      }
+    );
+
+
+  </script>
+
+</body>
+
+</html>
