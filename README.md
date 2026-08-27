@@ -62,6 +62,7 @@ Data
 - The Metropolitan Museum of Art Open Access collection
 
 Project Structure
+```text
 ANCIENT_VESSEL/
 ├── assets/
 ├── back.ipynb
@@ -71,11 +72,12 @@ ANCIENT_VESSEL/
 ├── requirements.txt
 ├── server.py
 └── README.md
+```
 
-Goals
+## Goals
 The long-term goal of Vessel Origins is to explore how computer vision can assist with the discovery and preliminary classification of historical objects while maintaining transparency about model uncertainty and dataset limitations.
 
-Future development may include:
+## Future development may include:
 - Additional cultural categories
 - A larger and more balanced training dataset
 - Improved model evaluation
@@ -83,11 +85,11 @@ Future development may include:
 - More detailed prediction explanations
 - Expanded museum collection sources
 
-Disclaimer
+## Disclaimer
 Vessel Origins is an experimental educational project. Model predictions are probabilistic and should not be treated as professional archaeological, historical, or curatorial attributions.
 
 Museum collection images and associated metadata remain subject to the terms and rights information provided by their respective institutions.
 
-Creator
+## Creator
 Created by Jael Ultimo.
 Built as an independent exploration of computer vision, human-computer interaction, cultural heritage, and museum collections.
