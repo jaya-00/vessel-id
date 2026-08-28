@@ -1976,105 +1976,90 @@
     );
 
 
-
     async function analyzeImage() {
-
 
       if (!selectedFile) {
         return;
       }
 
-
-      waiting.style.display =
-        "none";
-
-
-      results.style.display =
-        "none";
-
-
-      loading.style.display =
-        "block";
-
-
-      analyzeButton.disabled =
-        true;
-
-
+      waiting.style.display = "none";
+      results.style.display = "none";
+      loading.style.display = "block";
+      analyzeButton.disabled = true;
 
       try {
 
-
-        const formData =
-          new FormData();
-
+        const formData = new FormData();
 
         formData.append(
           "file",
           selectedFile
         );
 
-
-        const response =
-          await fetch(
-            API_URL,
-            {
-              method: "POST",
-              body: formData
-            }
-          );
-
+        const response = await fetch(
+          "/predict",
+          {
+            method: "POST",
+            body: formData
+          }
+        );
 
         if (!response.ok) {
-
           throw new Error(
-            "Backend not connected"
+            `Server error: ${response.status}`
           );
-
         }
 
+        const data = await response.json();
 
-        const data =
-          await response.json();
+        console.log(
+          "Prediction response:",
+          data
+        );
 
+        if (
+          !data.predictions ||
+          typeof data.predictions !== "object"
+        ) {
+          throw new Error(
+            "Prediction data missing"
+          );
+        }
 
         showResults(
           data.predictions
         );
 
-      }
+        loading.style.display = "none";
+        results.style.display = "block";
 
-        catch (error) {
+        analyzeButton.textContent =
+          "Analyze another";
 
-            console.error("Prediction error:", error);
+        analyzeButton.disabled =
+          false;
 
-            results.style.display = "block";
+      } catch (error) {
 
-            cultureName.textContent =
-                "Unable to analyze";
+        console.error(
+          "Prediction error:",
+          error
+        );
 
-            confidence.textContent =
-                "";
+        loading.style.display = "none";
+        results.style.display = "block";
 
-            predictionBars.innerHTML =
-                "";
+        cultureName.textContent =
+          "Unable to analyze";
 
-            warning.textContent =
-                "The model could not process this image. Please try again.";
+        confidence.textContent =
+          "";
 
-        }
-  
+        predictionBars.innerHTML =
+          "";
 
-      finally {
-
-
-        loading.style.display =
-          "none";
-
-
-        results.style.display =
-          "block";
-
+        warning.textContent =
+          "The model returned an error while displaying this result. Please try again.";
 
         analyzeButton.disabled =
           false;
@@ -2082,8 +2067,6 @@
       }
 
     }
-
-
 
     /* ========================================
        SHOW MODEL RESULTS
