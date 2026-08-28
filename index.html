@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -1978,6 +1978,11 @@
 
     async function analyzeImage() {
 
+      if (analyzeButton.dataset.mode === "reset") {
+        resetAnalyzer();
+        return;
+      }
+
       if (!selectedFile) {
         return;
       }
@@ -1985,7 +1990,9 @@
       waiting.style.display = "none";
       results.style.display = "none";
       loading.style.display = "block";
+
       analyzeButton.disabled = true;
+      analyzeButton.textContent = "Analyzing...";
 
       try {
 
@@ -1997,7 +2004,7 @@
         );
 
         const response = await fetch(
-          "/predict",
+          API_URL,
           {
             method: "POST",
             body: formData
@@ -2017,12 +2024,9 @@
           data
         );
 
-        if (
-          !data.predictions ||
-          typeof data.predictions !== "object"
-        ) {
+        if (!data.predictions) {
           throw new Error(
-            "Prediction data missing"
+            "No predictions returned"
           );
         }
 
@@ -2033,11 +2037,12 @@
         loading.style.display = "none";
         results.style.display = "block";
 
+        analyzeButton.disabled = false;
         analyzeButton.textContent =
           "Analyze another";
 
-        analyzeButton.disabled =
-          false;
+        analyzeButton.dataset.mode =
+          "reset";
 
       } catch (error) {
 
@@ -2052,21 +2057,54 @@
         cultureName.textContent =
           "Unable to analyze";
 
-        confidence.textContent =
-          "";
+        confidence.textContent = "";
 
-        predictionBars.innerHTML =
-          "";
+        predictionBars.innerHTML = "";
 
         warning.textContent =
-          "The model returned an error while displaying this result. Please try again.";
+          "Something went wrong while analyzing this image. Please try again.";
 
-        analyzeButton.disabled =
-          false;
+        analyzeButton.disabled = false;
+        analyzeButton.textContent =
+          "Try again";
 
       }
 
     }
+
+
+    function resetAnalyzer() {
+
+      selectedFile = null;
+
+      imageInput.value = "";
+
+      preview.src = "";
+      preview.style.display = "none";
+
+      uploadMessage.style.display =
+        "block";
+
+      waiting.style.display =
+        "block";
+
+      loading.style.display =
+        "none";
+
+      results.style.display =
+        "none";
+
+      analyzeButton.textContent =
+        "Analyze image";
+
+      analyzeButton.disabled =
+        true;
+
+      analyzeButton.dataset.mode =
+        "";
+
+    }
+
 
     /* ========================================
        SHOW MODEL RESULTS
